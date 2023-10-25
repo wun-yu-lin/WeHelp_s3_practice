@@ -3,9 +3,11 @@ package wehelp.wunyu.wehelp_stage3_practice.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import wehelp.wunyu.wehelp_stage3_practice.dao.PictureRdbDao;
 import wehelp.wunyu.wehelp_stage3_practice.dao.PictureS3Dao;
+import wehelp.wunyu.wehelp_stage3_practice.exception.FileDeleteException;
 import wehelp.wunyu.wehelp_stage3_practice.exception.FileUploadException;
 import wehelp.wunyu.wehelp_stage3_practice.model.S3pictureModel;
 
@@ -27,7 +29,7 @@ public class PictureServiceImpl implements PictureService{
         this.pictureRdbDao = pictureRdbDao;
     }
 
-
+    @Transactional
     @Override
     public boolean uploadPicture(MultipartFile file, S3pictureModel s3pictureModel) throws IOException, FileUploadException {
         String fileName= pictureDao.uploadPictureToAwsS3(file, s3pictureModel);
@@ -53,9 +55,17 @@ public class PictureServiceImpl implements PictureService{
         return s3pictureModelList;
     }
 
+    @Transactional
     @Override
-    public boolean deletePictureById(int id) {
-        return false;
+    public boolean deletePicture(String key) throws FileDeleteException, IOException {
+        boolean isRdbDeleteSuccess = pictureRdbDao.deleteRdbPictureByKey(key);
+        boolean isS3DeleteSuccess = pictureDao.deleteS3PictureByKey(key);
+
+        if (!isS3DeleteSuccess || !isRdbDeleteSuccess){
+            throw new FileDeleteException("file delete failed");
+        }
+
+        return true;
     }
 
 

@@ -9,5 +9,5 @@ import java.io.IOException;
 
 public interface PictureS3Dao {
     String uploadPictureToAwsS3(MultipartFile multipartFile, S3pictureModel s3pictureModel) throws FileUploadException, IOException;
-    boolean deleteS3PictureByKey(int id) throws IOException, FileDeleteException;
+    boolean deleteS3PictureByKey(String key) throws IOException, FileDeleteException;
 }

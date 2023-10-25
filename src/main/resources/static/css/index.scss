@@ -28,7 +28,16 @@ hr {
   width: 100%;
 }
 
-
+button {
+  width: 100xp;
+  max-width: 1200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
 
 
 @media (max-width:1200px)  {

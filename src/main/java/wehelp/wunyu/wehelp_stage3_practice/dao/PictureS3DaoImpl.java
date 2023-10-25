@@ -14,6 +14,7 @@ import wehelp.wunyu.wehelp_stage3_practice.model.S3pictureModel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 
@@ -61,9 +62,15 @@ public class PictureS3DaoImpl implements PictureS3Dao {
     }
 
     @Override
-    public boolean deleteS3PictureByKey(int id) throws IOException, FileDeleteException {
-        return false;
+    public boolean deleteS3PictureByKey(String key) throws IOException, FileDeleteException {
+        try {
+            s3Client.deleteObject(bucketName, key);
+        }catch (Exception e){
+            throw new FileDeleteException("file delete failed");
+        }
+        return true;
     }
+
 
     public static String generateFileNameByUUID(){
         UUID uuid = UUID.randomUUID();

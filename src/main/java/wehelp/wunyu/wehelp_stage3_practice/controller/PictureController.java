@@ -1,11 +1,13 @@
 package wehelp.wunyu.wehelp_stage3_practice.controller;
 
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import wehelp.wunyu.wehelp_stage3_practice.exception.FileDeleteException;
 import wehelp.wunyu.wehelp_stage3_practice.exception.FileDownloadException;
 import wehelp.wunyu.wehelp_stage3_practice.exception.FileEmptyException;
 import wehelp.wunyu.wehelp_stage3_practice.exception.FileUploadException;
@@ -61,6 +63,17 @@ public class PictureController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(s3pictureModelList);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deletePicture(@RequestParam("key") @NotNull String key) throws FileDeleteException, IOException {
+
+        boolean isDeleteSuccess = pictureService.deletePicture(key);
+        if (!isDeleteSuccess){
+            throw new FileDeleteException("file delete failed");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("picture delete success");
     }
 
 
