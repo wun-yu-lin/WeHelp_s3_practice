@@ -1,0 +1,34 @@
+img {
+  width: 400px;
+  object-fit: cover;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.content div {
+  max-width: 1200px;
+}
+
+hr {
+  width: 100%;
+  max-width: 1200px;
+  border: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+.imgItem, .imgContainer {
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .content div {
+    max-width: calc(100% - 40px);
+  }
+}
+
+/*# sourceMappingURL=index.css.map */
