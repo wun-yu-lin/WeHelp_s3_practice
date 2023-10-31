@@ -1,4 +1,4 @@
-FROM tomcat:9.0-jdk17-corretto
+FROM openjdk:17-jdk-slim
 VOLUME /tmp
 ADD target/WeHelp_stage3_practice-0.0.1-SNAPSHOT.jar app-0.0.1.jar
 ADD data/application.properties /app/config/application.properties
